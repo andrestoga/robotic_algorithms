@@ -1,0 +1,8 @@
+
+path_finding/build/
+
+path_finding/devel/
+
+path_finding/\.catkin_workspace
+
+path_finding/src/CMakeLists\.txt
