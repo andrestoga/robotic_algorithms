@@ -7,8 +7,6 @@ path_finding/\.catkin_workspace
 
 path_finding/src/CMakeLists\.txt
 
-path_finding/multi\.sublime-project
+path_finding/path_finding\.sublime-project
 
-path_finding/multi\.sublime-workspace
-
-path_finding/multi_robot_planning\.mdj
+path_finding/path_finding\.sublime-workspace
