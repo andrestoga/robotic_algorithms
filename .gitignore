@@ -1,12 +1,1 @@
-
-path_finding/build/
-
-path_finding/devel/
-
-path_finding/\.catkin_workspace
-
-path_finding/src/CMakeLists\.txt
-
-path_finding/path_finding\.sublime-project
-
-path_finding/path_finding\.sublime-workspace
+ros_migration_ws

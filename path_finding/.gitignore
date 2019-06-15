@@ -1,0 +1,13 @@
+build/
+
+devel/
+
+\.catkin_workspace
+
+src/CMakeLists\.txt
+
+path_finding\.sublime-project
+
+path_finding\.sublime-workspace
+
+multi_robot_planning\.mdj
