@@ -1,0 +1,11 @@
+build/
+
+devel/
+
+\.catkin_workspace
+
+src/CMakeLists\.txt
+
+migration\.sublime-project
+
+migration\.sublime-workspace
