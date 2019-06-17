@@ -47,10 +47,15 @@ namespace multi_agent_plan
 
     open_.push_back( start_cell );
 
+    auto cmp = [](const CellDijk* a, const CellDijk* b)
+    {
+      return a->g_ > b->g_;
+    };
+
     while( !open_.empty() )
     {
       multi_agent_plan::CellDijk* cell = open_.front();
-      std::pop_heap( open_.begin(), open_.end() );
+      std::pop_heap( open_.begin(), open_.end(), cmp );
       open_.pop_back();
 
       closed_.push_back( cell );
@@ -72,16 +77,13 @@ namespace multi_agent_plan
           // TODO: Here the cost could be 1.4 for the diagonally
           tmp->g_ = cell->g_ + 1;
           open_.push_back( tmp );
-          std::push_heap( open_.begin(), open_.end() );
+          std::push_heap( open_.begin(), open_.end(), cmp );
         }
         else if ( ( cell->g_ + 1 ) < tmp->g_ ) // TODO: Here the cost could be 1.4 for the diagonally
         {
           tmp->g_ = cell->g_ + 1;
           tmp->parent_ = cell;
-          std::make_heap( closed_.begin(), closed_.end(), [](const CellDijk* a, const CellDijk* b)
-          {
-            return a->g_ > b->g_;
-          } );
+          std::make_heap( closed_.begin(), closed_.end(), cmp );
         }
       }
     }

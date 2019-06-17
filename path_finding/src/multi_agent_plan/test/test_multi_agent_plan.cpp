@@ -22,17 +22,18 @@ auto createPose2D = [](double x, double y, double theta) {
 	return p;
 };
 
+// 10 x 10
 const char g_valid_image_content[] = {
-	0,0,0,0,0,0,0,0,0,0,
-	100,100,100,100,0,0,100,100,100,0,
-	100,100,100,100,0,0,100,100,100,0,
-	100,0,0,0,0,0,0,0,0,0,
-	100,0,0,0,0,0,0,0,0,0,
-	100,0,0,0,0,0,100,100,0,0,
-	100,0,0,0,0,0,100,100,0,0,
-	100,0,0,0,0,0,100,100,0,0,
-	100,0,0,0,0,0,100,100,0,0,
-	100,0,0,0,0,0,0,0,0,0,
+	  0,   0,  0,  0,0,0,  0,  0,  0,0,
+	100, 100,100,100,0,0,100,100,100,0,
+	100, 100,100,100,0,0,100,100,100,0,
+	100,   0,  0,  0,0,0,  0,  0,  0,0,
+	100,   0,  0,  0,0,0,  0,  0,  0,0,
+	100,   0,  0,  0,0,0,100,100,  0,0,
+	100,   0,  0,  0,0,0,100,100,  0,0,
+	100,   0,  0,  0,0,0,100,100,  0,0,
+	100,   0,  0,  0,0,0,100,100,  0,0,
+	100,   0,  0,  0,0,0,  0,  0,  0,0,
 	};
 
 class PathFixture : public ::testing::Test 
@@ -167,42 +168,20 @@ TEST_F( PathFixture, pathAStar )
 	test1.push_back( createPose2D( 4.0, 2.0, 0.0 ) );
 	test1.push_back( createPose2D( 4.0, 3.0, 0.0 ) );
 	test1.push_back( createPose2D( 4.0, 4.0, 0.0 ) );
-	test1.push_back( createPose2D( 4.0, 5.0, 0.0 ) );
-	test1.push_back( createPose2D( 4.0, 6.0, 0.0 ) );
-	test1.push_back( createPose2D( 4.0, 7.0, 0.0 ) );
-	test1.push_back( createPose2D( 4.0, 8.0, 0.0 ) );
-	test1.push_back( createPose2D( 4.0, 9.0, 0.0 ) );
 
-	test1.push_back( createPose2D( 5.0, 9.0, 0.0 ) );
-	test1.push_back( createPose2D( 6.0, 9.0, 0.0 ) );
-	test1.push_back( createPose2D( 7.0, 9.0, 0.0 ) );
-	test1.push_back( createPose2D( 8.0, 9.0, 0.0 ) );
+	test1.push_back( createPose2D( 5.0, 4.0, 0.0 ) );
+	test1.push_back( createPose2D( 6.0, 4.0, 0.0 ) );
+	test1.push_back( createPose2D( 7.0, 4.0, 0.0 ) );
+	test1.push_back( createPose2D( 8.0, 4.0, 0.0 ) );
+
+	test1.push_back( createPose2D( 8.0, 5.0, 0.0 ) );
+	test1.push_back( createPose2D( 8.0, 6.0, 0.0 ) );
+	test1.push_back( createPose2D( 8.0, 7.0, 0.0 ) );
+	test1.push_back( createPose2D( 8.0, 8.0, 0.0 ) );
+
+	test1.push_back( createPose2D( 9.0, 8.0, 0.0 ) );
+
 	test1.push_back( createPose2D( 9.0, 9.0, 0.0 ) );
-
-	// test1.push_back( createPose2D( 0.0, 0.0, 0.0 ) );
-	// test1.push_back( createPose2D( 1.0, 0.0, 0.0 ) );
-	// test1.push_back( createPose2D( 2.0, 0.0, 0.0 ) );
-	// test1.push_back( createPose2D( 3.0, 0.0, 0.0 ) );
-	// test1.push_back( createPose2D( 4.0, 0.0, 0.0 ) );
-
-	// test1.push_back( createPose2D( 4.0, 1.0, 0.0 ) );
-	// test1.push_back( createPose2D( 4.0, 2.0, 0.0 ) );
-	// test1.push_back( createPose2D( 4.0, 3.0, 0.0 ) );
-	// test1.push_back( createPose2D( 4.0, 4.0, 0.0 ) );
-
-	// test1.push_back( createPose2D( 5.0, 4.0, 0.0 ) );
-	// test1.push_back( createPose2D( 6.0, 4.0, 0.0 ) );
-	// test1.push_back( createPose2D( 7.0, 4.0, 0.0 ) );
-	// test1.push_back( createPose2D( 8.0, 4.0, 0.0 ) );
-
-	// test1.push_back( createPose2D( 8.0, 5.0, 0.0 ) );
-	// test1.push_back( createPose2D( 8.0, 6.0, 0.0 ) );
-	// test1.push_back( createPose2D( 8.0, 7.0, 0.0 ) );
-	// test1.push_back( createPose2D( 8.0, 8.0, 0.0 ) );
-
-	// test1.push_back( createPose2D( 9.0, 8.0, 0.0 ) );
-
-	// test1.push_back( createPose2D( 9.0, 9.0, 0.0 ) );
 
 	ASSERT_EQ( test1.size(), plan1.size() );
 

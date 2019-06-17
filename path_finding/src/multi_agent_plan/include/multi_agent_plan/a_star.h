@@ -54,13 +54,21 @@ namespace multi_agent_plan
 
     open_.push_back( start_cell );
 
+    auto cmp = [](const CellAStar* a, const CellAStar* b)
+    {
+      return a->f_ > b->f_;
+    };
+
     while( !open_.empty() )
     {
       multi_agent_plan::CellAStar* cell = open_.front();
-      std::pop_heap( open_.begin(), open_.end() );
+      std::pop_heap( open_.begin(), open_.end(), cmp );
       open_.pop_back();
 
       closed_.push_back( cell );
+
+      // Current cell
+      // ROS_INFO( "Current cell: %f %f", cell->pose_.y, cell->pose_.x );
 
       if ( cell->pose_.x == goal.x && cell->pose_.y == goal.y )
       {
@@ -80,19 +88,26 @@ namespace multi_agent_plan
           tmp->g_ = cell->g_ + 1;
           tmp->f_ = tmp->g_ + h_function( tmp->pose_, goal );
           open_.push_back( tmp );
-          std::push_heap( open_.begin(), open_.end() );
+          std::push_heap( open_.begin(), open_.end(), cmp );
         }
         else if ( ( cell->g_ + 1 ) < tmp->g_ ) // TODO: Here the cost could be 1.4 for the diagonally
         {
           tmp->g_ = cell->g_ + 1;
           tmp->f_ = tmp->g_ + h_function( tmp->pose_, goal );
           tmp->parent_ = cell;
-          std::make_heap( closed_.begin(), closed_.end(), [](const CellAStar* a, const CellAStar* b)
-          {
-            return a->f_ > b->f_;
-          } );
+          std::make_heap( open_.begin(), open_.end(), cmp);
         }
+
       }
+
+      // ROS_INFO( "Priority queue: " );
+
+      // for( auto m : open_ )
+      // {
+      //   ROS_INFO( "%f %f : %f", m->pose_.y, m->pose_.x, m->f_ );
+      // }
+
+      // ROS_INFO( "1" );
     }
 
     std::vector<geometry_msgs::Pose2D> failure;
