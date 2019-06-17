@@ -7,6 +7,7 @@
 #include "multi_agent_plan/manhattan_planner.h"
 #include "multi_agent_plan/dfs.h"
 #include "multi_agent_plan/dijkstra.h"
+#include "multi_agent_plan/a_star.h"
 #include "map_server/image_loader.h"
 #include "nav_msgs/GetMap.h"
 #include "ros/ros.h"
@@ -21,17 +22,18 @@ auto createPose2D = [](double x, double y, double theta) {
 	return p;
 };
 
+// 10 x 10
 const char g_valid_image_content[] = {
-	0,0,0,0,0,0,0,0,0,0,
-	100,100,100,100,0,0,100,100,100,0,
-	100,100,100,100,0,0,100,100,100,0,
-	100,0,0,0,0,0,0,0,0,0,
-	100,0,0,0,0,0,0,0,0,0,
-	100,0,0,0,0,0,100,100,0,0,
-	100,0,0,0,0,0,100,100,0,0,
-	100,0,0,0,0,0,100,100,0,0,
-	100,0,0,0,0,0,100,100,0,0,
-	100,0,0,0,0,0,0,0,0,0,
+	  0,   0,  0,  0,0,0,  0,  0,  0,0,
+	100, 100,100,100,0,0,100,100,100,0,
+	100, 100,100,100,0,0,100,100,100,0,
+	100,   0,  0,  0,0,0,  0,  0,  0,0,
+	100,   0,  0,  0,0,0,  0,  0,  0,0,
+	100,   0,  0,  0,0,0,100,100,  0,0,
+	100,   0,  0,  0,0,0,100,100,  0,0,
+	100,   0,  0,  0,0,0,100,100,  0,0,
+	100,   0,  0,  0,0,0,100,100,  0,0,
+	100,   0,  0,  0,0,0,  0,  0,  0,0,
 	};
 
 class PathFixture : public ::testing::Test 
@@ -142,6 +144,52 @@ TEST_F( PathFixture, map )
 		}
 
 		ASSERT_EQ( is_occupied_, map2.grid_[ i ].is_occupied_ );
+	}
+}
+
+TEST_F( PathFixture, pathAStar )
+{
+	multi_agent_plan::AStar planner( map_resp_.map );
+
+	// Testing path computed
+	std::vector<geometry_msgs::Pose2D> plan1 = planner.pathPlanning( createPose2D( 0.0, 0.0, 0.0 ), createPose2D( 9.0, 9.0, 0.0 ) );
+
+	ASSERT_NE( plan1.size(), 0 );
+
+	std::vector<geometry_msgs::Pose2D> test1;
+
+	test1.push_back( createPose2D( 0.0, 0.0, 0.0 ) );
+	test1.push_back( createPose2D( 1.0, 0.0, 0.0 ) );
+	test1.push_back( createPose2D( 2.0, 0.0, 0.0 ) );
+	test1.push_back( createPose2D( 3.0, 0.0, 0.0 ) );
+	test1.push_back( createPose2D( 4.0, 0.0, 0.0 ) );
+
+	test1.push_back( createPose2D( 4.0, 1.0, 0.0 ) );
+	test1.push_back( createPose2D( 4.0, 2.0, 0.0 ) );
+	test1.push_back( createPose2D( 4.0, 3.0, 0.0 ) );
+	test1.push_back( createPose2D( 4.0, 4.0, 0.0 ) );
+
+	test1.push_back( createPose2D( 5.0, 4.0, 0.0 ) );
+	test1.push_back( createPose2D( 6.0, 4.0, 0.0 ) );
+	test1.push_back( createPose2D( 7.0, 4.0, 0.0 ) );
+	test1.push_back( createPose2D( 8.0, 4.0, 0.0 ) );
+
+	test1.push_back( createPose2D( 8.0, 5.0, 0.0 ) );
+	test1.push_back( createPose2D( 8.0, 6.0, 0.0 ) );
+	test1.push_back( createPose2D( 8.0, 7.0, 0.0 ) );
+	test1.push_back( createPose2D( 8.0, 8.0, 0.0 ) );
+
+	test1.push_back( createPose2D( 9.0, 8.0, 0.0 ) );
+
+	test1.push_back( createPose2D( 9.0, 9.0, 0.0 ) );
+
+	ASSERT_EQ( test1.size(), plan1.size() );
+
+	for (int i = 0; i < test1.size(); ++i)
+	{
+		EXPECT_EQ( test1[ i ].x, plan1[ i ].x ) << i;
+		EXPECT_EQ( test1[ i ].y, plan1[ i ].y ) << i;
+		EXPECT_EQ( test1[ i ].theta, plan1[ i ].theta ) << i;
 	}
 }
 
